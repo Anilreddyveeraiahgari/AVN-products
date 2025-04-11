@@ -100,7 +100,7 @@ background-color: #0056b3;
 </select>
 </div>
 
-<div class="product">
+<div class="product" data-name="AVN Video Processor" data-price="500">
 <img src="product1.jpg" alt="Product 1">
 <div>
 <h3>AVN Video Processor</h3>
@@ -109,7 +109,7 @@ background-color: #0056b3;
 </div>
 </div>
 
-<div class="product">
+<div class="product" data-name="AVN Sound Enhancer" data-price="300">
 <img src="product2.jpg" alt="Product 2">
 <div>
 <h3>AVN Sound Enhancer</h3>
@@ -131,6 +131,47 @@ background-color: #0056b3;
 <footer>
 <p>&copy; 2025 AVN Products. All rights reserved.</p>
 </footer>
+
+<script>
+// Search functionality
+document.getElementById('searchField').addEventListener('input', function() {
+    const searchQuery = this.value.toLowerCase();
+    const products = document.querySelectorAll('.product');
+    
+    products.forEach(product => {
+        const productName = product.querySelector('h3').textContent.toLowerCase();
+        if (productName.includes(searchQuery)) {
+            product.style.display = 'flex';  // Show product
+        } else {
+            product.style.display = 'none';  // Hide product
+        }
+    });
+});
+
+// Sorting functionality
+document.getElementById('sortSelect').addEventListener('change', function() {
+    const sortValue = this.value;
+    const products = Array.from(document.querySelectorAll('.product'));
+    
+    products.sort((a, b) => {
+        const nameA = a.getAttribute('data-name').toLowerCase();
+        const nameB = b.getAttribute('data-name').toLowerCase();
+        const priceA = parseFloat(a.getAttribute('data-price'));
+        const priceB = parseFloat(b.getAttribute('data-price'));
+
+        if (sortValue === 'name') {
+            return nameA.localeCompare(nameB);
+        } else if (sortValue === 'price') {
+            return priceA - priceB;
+        }
+        return 0;
+    });
+
+    // Append the sorted products back to the container
+    const productContainer = document.querySelector('.container');
+    products.forEach(product => productContainer.appendChild(product));
+});
+</script>
 
 </body>
 </html>
